@@ -40,5 +40,7 @@ build {
   sources = [
     "source.amazon-ebs.ubuntu_instance",
   ]
+
+  provisioner "shell"
 }
 
