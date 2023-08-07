@@ -14,8 +14,3 @@ variable "cidr_public_1" {
 variable "cidr_private_1" {
     description = "cidr of private"  
 }
-
-
-variable "rtb_public_id" {
-    description = "rtb id of public subnet"
-}
