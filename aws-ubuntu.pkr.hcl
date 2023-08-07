@@ -2,8 +2,12 @@
 packer {
   required_plugins {
     amazon = {
-      version = ">= 1.2.0"
       source  = "github.com/hashicorp/amazon"
+      version = "~> 1"
+    }
+    ansible = {
+      source  = "github.com/hashicorp/ansible"
+      version = "~> 1"
     }
   }
 }
@@ -17,9 +21,9 @@ source "amazon-ebs" "ubuntu_instance" {
   instance_type     = "t3.small"
   region            = "ap-south-1"
   ssh_username      = "ubuntu"
-  vpc_id            = "vpc-033f3248f9dab725c"
-  subnet_id         = "subnet-0e056fe7fac71b152"
-  security_group_id = "sg-0162ac9e0f1dd9374"
+  vpc_id            = "vpc-07d303462c37e33da"
+  subnet_id         = "subnet-096af14d29f3f5d0b"
+  security_group_id = "sg-0dbc5928e761c1501"
   source_ami_filter {
     filters = {
       name                = "ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"
@@ -38,9 +42,27 @@ source "amazon-ebs" "ubuntu_instance" {
 build {
   name = "ubuntu-ansi-docker-run"
   sources = [
-    "source.amazon-ebs.ubuntu_instance",
+    "source.amazon-ebs.ubuntu_instance"
   ]
-
-  provisioner "shell"
+  provisioner "shell" {
+    inline = [
+      "sudo apt -y update",
+      "sudo apt-get install -y software-properties-common",
+      "sudo apt-add-repository -y ppa:ansible/ansible",
+      "sudo apt-get install -y ansible"
+    ]
+  }
+  provisioner "shell" {
+    inline = [
+      "sudo apt -y update",
+      "sudo apt install apt-transport-https ca-certificates curl software-properties-common",
+      "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
+      "echo 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+      "sudo apt -y update",
+      "sudo apt install -y docker-ce",
+      "sudo systemctl start docker",
+      "sudo systemctl enable docker"
+    ]
+  }
 }
 
