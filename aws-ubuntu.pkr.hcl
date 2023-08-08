@@ -12,8 +12,8 @@ packer {
 }
 
 variable "vpc_id_default" {
-    description = "default vpc id"  
-    default = "vpc-08c328b418345d090"
+  description = "default vpc id"
+  default     = "vpc-08c328b418345d090"
 }
 locals {
   timestamp = regex_replace(timestamp(), "[- TZ:]", "")
@@ -48,6 +48,8 @@ build {
   provisioner "shell" {
     inline = [
       "sudo apt -y update",
+      "echo set debconf to Noninteractive",
+      "echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections",
       "sudo apt-get install -y software-properties-common",
       "sudo apt-add-repository -y ppa:ansible/ansible",
       "sudo apt-get install -y ansible"
@@ -57,11 +59,13 @@ build {
     inline = [
       "sudo apt install -y apt-transport-https ca-certificates curl software-properties-common",
       "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg",
-      "echo 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null",
+      "sudo add-apt-repository 'deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable'",
+      "sudo apt-cache policy docker-ce",
       "sudo apt install -y docker-ce",
       "sudo systemctl start docker",
       "sudo systemctl enable docker"
     ]
+    pause_before = "30s"
   }
 }
 
