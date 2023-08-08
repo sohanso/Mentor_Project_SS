@@ -34,15 +34,29 @@ resource "aws_subnet" "private_1" {
 resource "aws_internet_gateway" "main_igw" {
     vpc_id = aws_vpc.main_vpc.id
     tags = {
-        Name = "Main_Internet_gateway"
+        Name = "Main_vpc_Internet_gateway"
         Id = "Mentor_Project"
     }
 }
-# resource "aws_route" "route_igw" {
-#   route_table_id            = var.rtb_public_id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   gateway_id = aws_internet_gateway.main_igw.id
-# }
+
+## ROute table for Public subnet with IGW route ##
+resource "aws_route_table" "public_1_rtb" {
+    vpc_id = aws_vpc.main_vpc.id
+    tags = {
+        Name = "public_1_route_table"
+        Id = "Mentor_Project"
+    } 
+}
+resource "aws_route" "public_1_route" {
+  route_table_id            = aws_route_table.public_1_rtb.id
+  destination_cidr_block    = "0.0.0.0/0"
+  gateway_id = aws_internet_gateway.main_igw.id
+}
+
+resource "aws_route_table_association" "public_1_assoc" {
+  subnet_id = aws_subnet.public_1.id
+  route_table_id = aws_route_table.public_1_rtb.id 
+}
 
 
 resource "aws_security_group" "default_sg" {
