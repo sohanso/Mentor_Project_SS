@@ -1,14 +1,14 @@
-# resource "aws_instance" "soweb1" {
-#   ami           = ""
-#   instance_type = "t3.medium"
-#   vpc_security_group_ids = [aws_security_group.ubuntu_server_sg]
-#   key_name = "mumbai_1"
-#   subnet_id = aws_subnet.public_1.id
+resource "aws_instance" "soweb1" {
+  ami           = data.aws_ami.ami_with_ansi_dock.id
+  instance_type = "t3.medium"
+  security_groups = [aws_security_group.ubuntu_server_sg.id]
+  key_name = "mumbai_1"
+  subnet_id = aws_subnet.public_1.id
 
-#   tags = {
-#     "Name" = "so_web1"
-#   }
-# }
+  tags = {
+    "Name" = "so_web1"
+  }
+}
 
 
 resource "aws_security_group" "ubuntu_server_sg" {
@@ -20,6 +20,13 @@ resource "aws_security_group" "ubuntu_server_sg" {
         description = "allow port 22"
         from_port = 22
         to_port = 22
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        description = "allow port 22"
+        from_port = 8080
+        to_port = 8080
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
