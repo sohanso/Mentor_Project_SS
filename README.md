@@ -23,7 +23,7 @@ STEP-4
 
 
 
-## ROUGH NOTES
+## JENKINS INSTALL ROUGH NOTES
 sudo docker network create jenkins
 sudo docker image pull docker:dind
 sudo docker run --name jenkins-docker --rm --detach \

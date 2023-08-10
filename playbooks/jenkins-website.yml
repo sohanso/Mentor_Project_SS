@@ -1,5 +1,5 @@
 ---
-- hosts: default
+- hosts: all
   become: true
   vars:
     container_count: 1
