@@ -8,6 +8,10 @@ packer {
       source  = "github.com/hashicorp/ansible"
       version = "~> 1"
     }
+    docker = {
+      source  = "github.com/hashicorp/docker"
+      version = "~> 1"
+    }
   }
 }
 
@@ -66,19 +70,18 @@ build {
       "sudo apt-get -y update",
       "sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin"
     ]
-    pause_before = "30s"
+    pause_before = "5s"
   }
   provisioner "shell" {
     inline = [
-      "sudo apt-get -y install openjdk-17-jre",
+      "sudo apt-get -y update",
+      "sudo apt -y install openjdk-17-jre",
       "curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null",
       "echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null",
       "sudo apt-get -y update",
-      "sudo apt-get install -y jenkins",
-      "sudo systemctl start jenkins",
-      "sudo systemctl enable jenkins"
+      "sudo apt-get install -y jenkins"
     ]
-    pause_before = "20s"
+    pause_before = "5s"
   }
 }
 
