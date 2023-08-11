@@ -5,7 +5,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t mentorproj/ngi-jenkin-test1 .'
+                    sh 'docker build -t sohanso/ngi-jenkin-test1 .'
                 }
                 
             }
@@ -13,10 +13,11 @@ pipeline {
         stage('Push image to Docker Hub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'dockhubcred', variable: 'dockhub-cred')]) {
-                    sh 'docker login -u sohanso -p ${dockhub-cred}'
-                    }
-                    sh 'docker push mentorproj/ngi-jenkin-test1'
+                    withCredentials([string(credentialsId: 'dockercred', variable: 'docker_cred')]){
+                    sh 'docker login -u sohanso -p ${docker_cred}'
+}
+
+                    sh 'docker push sohanso/ngi-jenkin-test1'
                 }
             }
         }
