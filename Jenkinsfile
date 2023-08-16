@@ -24,7 +24,7 @@ pipeline {
         stage('Run Latest Docker Image') {
             steps {
                 script {
-                    sh 'docker run -d -p 8081:8081 --pull always sohanso/ngi-jenkin-test1:latest'
+                    sh 'docker run -d -p 80:8081 --pull always sohanso/ngi-jenkin-test1:latest'
                 }
             }
         }
