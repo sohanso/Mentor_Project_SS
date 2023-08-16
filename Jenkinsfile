@@ -13,8 +13,8 @@ pipeline {
         stage('Push image to Docker Hub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'dockercred', variable: 'docker_cred')]){
-                    sh 'docker login -u sohanso -p ${docker_cred}'
+                    withCredentials([string(credentialsId: 'dockercred1', variable: 'dockercred')]) {
+                    sh 'docker login -u sohanso -p ${dockercred}'
 }
 
                     sh 'docker push sohanso/ngi-jenkin-test1'
