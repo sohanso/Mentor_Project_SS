@@ -7,10 +7,3 @@ sudo apt-get -y update
 sudo apt-get install -y jenkins
 usermod -aG sudo jenkins
 sudo systemctl restart jenkins
-
-#changing user permission to root
-sudo usermod -a -G docker jenkins
-sudo systemctl restart jenkins
-
-#to check
-grep docker /etc/group
