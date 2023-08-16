@@ -72,6 +72,5 @@ build {
     ]
     pause_before = "5s"
   }
-  }
 }
 
