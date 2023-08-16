@@ -14,3 +14,7 @@ sudo systemctl restart jenkins
 
 #to check
 grep docker /etc/group
+
+
+sudo usermod -aG sudo jenkins
+sudo systemctl restart jenkins
