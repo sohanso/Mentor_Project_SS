@@ -21,6 +21,13 @@ pipeline {
                 }
             }
         }
+        stage ('Run container Intial') {
+            steps {
+                script {
+                    sh ' docker run -d -p 80:8080 sohanso/ngi-jenkin-test1'
+                }
+            }
+        }
         stage ("remove old containers") {
             steps {
                 script {
