@@ -24,7 +24,7 @@ pipeline {
         stage ('Run container Intial') {
             steps {
                 script {
-                    sh ' docker run -d -p 8080:8080 sohanso/ngi-jenkin-test1'
+                    sh ' docker run -d -p 80:80 sohanso/ngi-jenkin-test1'
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
         stage('Run Latest Docker Image') {
             steps {
                 script {
-                    sh 'docker run -d -p 8080:8080 --pull always sohanso/ngi-jenkin-test1:latest'
+                    sh 'docker run -d -p 80:80 --pull always sohanso/ngi-jenkin-test1:latest'
                 }
             }
         }
