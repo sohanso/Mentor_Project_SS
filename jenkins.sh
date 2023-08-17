@@ -7,4 +7,8 @@ sudo apt-get -y update
 sudo apt-get install -y jenkins
 sudo chmod 666 /var/run/docker.sock
 sudo systemctl restart docker
+sudo sed -i 's/Environment="JENKINS_PORT=8080"/Environment="JENKINS_PORT=8081"/g' /usr/lib/systemd/system/jenkins.service
+sudo systemctl daemon-reload
+sudo systemctl restart jenkins
+
 
