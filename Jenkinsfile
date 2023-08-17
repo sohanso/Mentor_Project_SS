@@ -21,10 +21,11 @@ pipeline {
                 }
             }
         }
-        stage ("remove old containers") {
+        stage ("Remove container") {
             steps {
                 script {
-                    sh 'docker rm -f $(docker ps -aq)'
+                    sh 'docker container stop $(docker container ls -aq)'
+                    sh 'docker container rm $(docker container ls -aq)'
                 }
             }
         }
