@@ -24,7 +24,7 @@ pipeline {
         stage ("remove old containers") {
             steps {
                 script {
-                    sh 'docker rm $(docker ps -aq)'
+                    sh 'docker rm -f $(docker ps -aq)'
                 }
             }
         }
