@@ -10,5 +10,5 @@ sudo systemctl restart docker
 sudo sed -i 's/Environment="JENKINS_PORT=8080"/Environment="JENKINS_PORT=8081"/g' /usr/lib/systemd/system/jenkins.service
 sudo systemctl daemon-reload
 sudo systemctl restart jenkins
-
+sudo apt-get -y install awscli
 
